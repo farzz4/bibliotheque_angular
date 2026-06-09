@@ -1,0 +1,66 @@
+<h2>Formulaire Étudiant </h2>
+
+<form [formGroup]="studentForm" (ngSubmit)="onSubmitForm()">
+  
+  <!-- Nom -->
+  <div>
+    <label>Nom :</label>
+    <input formControlName="nom">
+    @if (nom?.invalid && nom?.touched) {
+      <small style="color:red; display:block;">Le nom est requis</small>
+    }
+  </div>
+
+  <!-- Prénom -->
+  <div>
+    <label>Prénom :</label>
+    <input formControlName="prenom">
+    @if (prenom?.invalid && prenom?.touched) {
+      <small style="color:red; display:block;">Le prénom est requis</small>
+    }
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label>Email :</label>
+    <input type="email" formControlName="email">
+    @if (email?.invalid && email?.touched) {
+      <div style="color:red;">
+        @if (email?.errors?.['required']) { 
+          <small style="display:block;">Email requis</small>
+        }
+        @if (email?.errors?.['email']) { 
+          <small style="display:block;">Format email invalide</small>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Téléphone -->
+  <div>
+    <label>Téléphone :</label>
+    <input type="text" formControlName="telephone">
+    @if (telephone?.invalid && telephone?.touched) {
+      <div style="color:red;">
+        @if (telephone?.errors?.['required']) { 
+          <small>Numéro de téléphone requis</small>
+        }
+        @if (telephone?.errors?.['minlength']) { 
+          <small>Minimum 8 chiffres</small>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Submit -->
+  <button type="submit" [disabled]="studentForm.invalid" style="margin-top: 10px;">
+    Envoyer
+  </button>
+</form>
+
+<!-- Aperçu des données -->
+@if (studentForm.valid) {
+  <hr>
+  <h3>Aperçu JSON :</h3>
+  <pre>{{ studentForm.value  }}</pre>
+}

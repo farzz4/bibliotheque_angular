@@ -1,0 +1,484 @@
+﻿/* liste-abonnement.scss - Liste des abonnements responsive */
+:host {
+  display: block;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Titre de la page */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+    margin: 1rem auto 0;
+    border-radius: 2px;
+  }
+}
+
+/* Conteneur principal */
+.abonnements-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Section des statistiques */
+.stats-section {
+  background: linear-gradient(135deg, var(--surface-color), #f8f6f2);
+  border-radius: var(--border-radius-large);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-light);
+
+  .stats-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &::before {
+      content: '📊';
+      font-size: 1.5rem;
+    }
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+  }
+}
+
+/* Section de la liste */
+.liste-section {
+  .liste-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '📋';
+        font-size: 1.25rem;
+      }
+    }
+
+    .actions-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  .abonnement-card {
+    background: var(--surface-color);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-light);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    border: 1px solid var(--border-color);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--secondary-color), #6b4f3f);
+      color: white;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .abonnement-info {
+        .abonnement-nom {
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .abonnement-type {
+          font-size: 0.9rem;
+          opacity: 0.9;
+          margin: 0.25rem 0 0 0;
+        }
+      }
+
+      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+
+        &.status-actif {
+          background: var(--accent-color);
+          color: white;
+        }
+
+        &.status-inactif {
+          background: #dc3545;
+          color: white;
+        }
+
+        &.status-expire {
+          background: #ffc107;
+          color: #212529;
+        }
+      }
+    }
+
+    .card-content {
+      padding: 1.5rem;
+
+      .abonnement-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        .detail-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .detail-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .detail-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+          }
+        }
+      }
+
+      .abonnement-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+
+        .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          min-width: 100px;
+        }
+      }
+    }
+  }
+}
+
+/* État vide */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  background: var(--surface-color);
+  border-radius: var(--border-radius-large);
+  border: 2px dashed var(--border-color);
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn {
+    margin: 0 auto;
+  }
+}
+
+/* Filtres et recherche */
+.filters-section {
+  background: var(--surface-color);
+  border-radius: var(--border-radius-large);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-light);
+
+  .filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .filters-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .clear-filters {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+
+      &:hover {
+        color: #3f5a4a;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .filter-group {
+    .filter-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      transition: border-color var(--transition-fast);
+
+      &:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+      }
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .stats-section {
+    padding: 1.5rem;
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-card {
+      padding: 1rem;
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .liste-section {
+    .liste-header {
+      flex-direction: column;
+      align-items: stretch;
+
+      .actions-group {
+        justify-content: center;
+      }
+    }
+
+    .abonnement-card {
+      .card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+
+        .abonnement-info {
+          .abonnement-nom {
+            font-size: 1rem;
+          }
+        }
+      }
+
+      .card-content {
+        padding: 1rem;
+
+        .abonnement-details {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
+
+        .abonnement-actions {
+          justify-content: center;
+
+          .btn {
+            flex: 1;
+            min-width: auto;
+          }
+        }
+      }
+    }
+  }
+
+  .filters-section {
+    .filters-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+
+    .empty-icon {
+      font-size: 3rem;
+    }
+
+    .empty-title {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .stats-section {
+    padding: 1rem;
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .liste-section {
+    .section-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  .filters-section {
+    padding: 1rem;
+  }
+}
+
+/* Animations */
+.abonnement-card {
+  animation: slideInUp 0.5s ease;
+  animation-fill-mode: both;
+
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+  &:nth-child(5) { animation-delay: 0.5s; }
+}
+
+/* États de chargement */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-large);
+  z-index: 10;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--secondary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

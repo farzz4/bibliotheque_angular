@@ -1,0 +1,24 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h3>📚 Menu</h3>
+    <a routerLink="/livres" routerLinkActive="active">Livres</a>
+    <a routerLink="/liste-etudiants" routerLinkActive="active">Liste Etudiants</a>
+    <a routerLink="/liste-abonnements" routerLinkActive="active">Liste Abonnements</a>
+  </aside>
+
+  <div class="content-wrapper">
+    <img *ngIf="isHome" src="assets/bib.png" alt="Bibliothèque" class="breadcrumb" width="100%">
+    <p *ngIf="isHome" class="description">
+      Une bibliothèque est un espace dédié à la conservation, à l’organisation et à la consultation 
+      de ressources documentaires telles que des livres, des revues, des articles et des supports 
+      numériques. Elle permet aux utilisateurs d’accéder à l’information, de se former, de se divertir 
+      et de mener des recherches dans un environnement calme et structuré. Les bibliothèques peuvent 
+      proposer des services variés comme le prêt de documents, l’accès à des ordinateurs, des espaces 
+      de travail, ainsi que des activités culturelles et éducatives.
+    </p>
+  </div>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,152 @@
+<!-- Page de la liste des abonnements -->
+<div class="container">
+  <h1 class="page-title">🎫 Liste des Abonnements</h1>
+
+  <!-- Section des statistiques -->
+  <div class="stats-section">
+    <h2 class="stats-title">Statistiques des Abonnements</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div class="stat-value">{{ abonnements.length }}</div>
+        <div class="stat-label">Total abonnements</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">✅</span>
+        <div class="stat-value">{{ getAbonnementsActifs() }}</div>
+        <div class="stat-label">Abonnements actifs</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⏰</span>
+        <div class="stat-value">{{ getAbonnementsExpires() }}</div>
+        <div class="stat-label">Expirent bientôt</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">💰</span>
+        <div class="stat-value">{{ getRevenusTotaux() }}€</div>
+        <div class="stat-label">Revenus totaux</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section des filtres -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h3 class="filters-title">🔍 Filtres et Recherche</h3>
+      <a class="clear-filters" (click)="clearFilters()" href="javascript:void(0)">Effacer les filtres</a>
+    </div>
+    <div class="filters-grid">
+      <div class="filter-group">
+        <input
+          type="text"
+          class="filter-input"
+          placeholder="Rechercher par nom..."
+          [(ngModel)]="searchTerm"
+          (input)="filterAbonnements()"
+        >
+      </div>
+      <div class="filter-group">
+        <select class="filter-input" [(ngModel)]="statusFilter" (change)="filterAbonnements()">
+          <option value="">Tous les statuts</option>
+          <option value="actif">Actif</option>
+          <option value="inactif">Inactif</option>
+          <option value="expire">Expire bientôt</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select class="filter-input" [(ngModel)]="typeFilter" (change)="filterAbonnements()">
+          <option value="">Tous les types</option>
+          <option value="mensuel">Mensuel</option>
+          <option value="trimestriel">Trimestriel</option>
+          <option value="annuel">Annuel</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section de la liste -->
+  <div class="liste-section">
+    <div class="liste-header">
+      <h2 class="section-title">Abonnements</h2>
+      <div class="actions-group">
+        <button class="btn btn-primary" (click)="ajouterAbonnement()">
+          ➕ Nouveau
+        </button>
+        <button class="btn btn-secondary" (click)="exporterListe()">
+          📄 Exporter
+        </button>
+      </div>
+    </div>
+
+    <div class="abonnement-card" *ngFor="let abonnement of abonnementsFiltres; trackBy: trackByFn">
+      <div class="card-header">
+        <div class="abonnement-info">
+          <h3 class="abonnement-nom">{{ abonnement.nom }}</h3>
+          <p class="abonnement-type">{{ abonnement.type | titlecase }}</p>
+        </div>
+        <span class="status-badge"
+              [ngClass]="{
+                'status-actif': abonnement.statut === 'actif',
+                'status-inactif': abonnement.statut === 'inactif',
+                'status-expire': abonnement.statut === 'expire'
+              }">
+          {{ abonnement.statut | titlecase }}
+        </span>
+      </div>
+
+      <div class="card-content">
+        <div class="abonnement-details">
+          <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ abonnement.email }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Téléphone</span>
+            <span class="detail-value">{{ abonnement.telephone }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Date d'inscription</span>
+            <span class="detail-value">{{ abonnement.dateInscription | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Expiration</span>
+            <span class="detail-value">{{ abonnement.dateExpiration | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Paiement</span>
+            <span class="detail-value">{{ abonnement.methodePaiement | titlecase }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Prix</span>
+            <span class="detail-value">{{ abonnement.prix }}€</span>
+          </div>
+        </div>
+
+        <div class="abonnement-actions">
+          <button class="btn btn-secondary" (click)="voirDetails(abonnement)">
+            👁️ Détails
+          </button>
+          <button class="btn btn-primary" (click)="modifierAbonnement(abonnement)">
+            ✏️ Modifier
+          </button>
+          <button class="btn" [ngClass]="abonnement.statut === 'actif' ? 'btn-outline' : 'btn-primary'"
+                  (click)="toggleStatut(abonnement)">
+            {{ abonnement.statut === 'actif' ? '🚫 Désactiver' : '✅ Activer' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="abonnementsFiltres.length === 0">
+    <span class="empty-icon">🎫</span>
+    <h3 class="empty-title">Aucun abonnement trouvé</h3>
+    <p class="empty-description">
+      {{ abonnements.length === 0 ? 'Il n\'y a encore aucun abonnement enregistré.' : 'Aucun abonnement ne correspond à vos critères de recherche.' }}
+    </p>
+    <button class="btn btn-primary" (click)="ajouterAbonnement()">
+      ➕ Créer le premier abonnement
+    </button>
+  </div>
+</div>

@@ -1,0 +1,343 @@
+// main-content.scss
+.bibliotheque-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  min-height: calc(100vh - 80px - 120px);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-bottom: 140px;
+
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+
+    // Breadcrumb navigation
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid rgba(37, 99, 235, 0.1);
+      animation: slideDown 0.5s ease;
+
+      .breadcrumb-link {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        &::before {
+          content: '🏠';
+          font-size: 1rem;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+        }
+
+        &:hover {
+          color: #2563eb;
+          background: rgba(37, 99, 235, 0.05);
+          transform: translateX(-2px);
+
+          &::before {
+            opacity: 1;
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      .breadcrumb-separator {
+        color: #94a3b8;
+        font-size: 1.2rem;
+        font-weight: 300;
+        margin: 0 0.25rem;
+      }
+
+      .breadcrumb-current {
+        color: #1e293b;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        padding: 0.25rem 0.5rem;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0.5rem;
+          right: 0.5rem;
+          height: 2px;
+          background: linear-gradient(90deg, #2563eb, #1e40af);
+          border-radius: 2px;
+          opacity: 0.5;
+        }
+      }
+    }
+
+    // Router outlet container
+    :host ::ng-deep router-outlet + * {
+      display: block;
+      animation: fadeInUp 0.6s ease;
+    }
+  }
+
+  // États de chargement pour le router-outlet
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: 1.5rem;
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(37, 99, 235, 0.1);
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    p {
+      color: #64748b;
+      font-size: 1.1rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+
+  // États d'erreur
+  .error-state {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.5s ease;
+
+    .error-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      animation: shake 0.5s ease;
+    }
+
+    h3 {
+      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #64748b;
+      margin-bottom: 1.5rem;
+    }
+
+    .retry-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Animations pour le contenu
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+// Styles responsifs
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    min-height: calc(100vh - 80px - 400px); // Footer plus grand sur mobile
+
+    .content-wrapper {
+      .breadcrumb {
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+
+        .breadcrumb-link,
+        .breadcrumb-current {
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    .error-state {
+      padding: 2rem;
+
+      .error-icon {
+        font-size: 3rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.75rem;
+
+    .content-wrapper {
+      .breadcrumb {
+        .breadcrumb-link::before {
+          content: '🏠';
+        }
+      }
+    }
+  }
+}
+
+// Styles pour les cartes de contenu (souvent utilisées dans les pages)
+:host ::ng-deep {
+  .content-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(37, 99, 235, 0.1);
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+  }
+
+  .page-title {
+    color: #1e293b;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #1e40af);
+      border-radius: 2px;
+    }
+  }
+
+  .section-title {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Animation de transition entre les pages
+::ng-deep .route-change {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #2563eb20 0%, #1e40af20 100%);
+    z-index: 9999;
+    pointer-events: none;
+    animation: fadeOut 0.3s ease forwards;
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

@@ -1,0 +1,164 @@
+<div class="abonnement-container">
+  <h2>Souscrire à un abonnement</h2>
+
+  <form #abonnementForm="ngForm" (ngSubmit)="onSubmitForm(abonnementForm)" class="abonnement-form">
+
+    <!-- Informations personnelles -->
+    <fieldset>
+      <legend>Informations personnelles</legend>
+
+      <div class="form-group">
+        <label for="nom">Nom complet :</label>
+        <input
+          type="text"
+          id="nom"
+          name="nom"
+          [(ngModel)]="abonnementData.nom"
+          required
+          minlength="2"
+          #nom="ngModel"
+          placeholder="Votre nom"
+          [class.invalid]="nom.invalid && nom.touched">
+        <div class="error-message" *ngIf="nom.invalid && nom.touched">
+          <small *ngIf="nom.errors?.['required']">Le nom est requis</small>
+          <small *ngIf="nom.errors?.['minlength']">Le nom doit contenir au moins 2 caractères</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="abonnementData.email"
+          required
+          email
+          #email="ngModel"
+          placeholder="votre@email.com"
+          [class.invalid]="email.invalid && email.touched">
+        <div class="error-message" *ngIf="email.invalid && email.touched">
+          <small *ngIf="email.errors?.['required']">L'email est requis</small>
+          <small *ngIf="email.errors?.['email']">Format d'email invalide</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone :</label>
+        <input
+          type="tel"
+          id="telephone"
+          name="telephone"
+          [(ngModel)]="abonnementData.telephone"
+          required
+          pattern="[0-9]{10}"
+          #telephone="ngModel"
+          placeholder="0612345678"
+          [class.invalid]="telephone.invalid && telephone.touched">
+        <div class="error-message" *ngIf="telephone.invalid && telephone.touched">
+          <small *ngIf="telephone.errors?.['required']">Le téléphone est requis</small>
+          <small *ngIf="telephone.errors?.['pattern']">Format: 10 chiffres</small>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Type d'abonnement -->
+    <fieldset>
+      <legend>Choisissez votre abonnement</legend>
+
+      <div class="form-group">
+        <div class="radio-option" *ngFor="let type of typesAbonnement; trackBy: trackByFn">
+          <input
+            type="radio"
+            name="typeAbonnement"
+            [(ngModel)]="abonnementData.typeAbonnement"
+            [value]="type.id"
+            required
+            #typeAbonnement="ngModel"
+            [id]="'type-' + type.id">
+          <label [for]="'type-' + type.id">
+            {{ type.nom }} - {{ type.prix }} €
+          </label>
+        </div>
+        <div class="error-message" *ngIf="abonnementForm.controls['typeAbonnement']?.invalid &&
+             abonnementForm.controls['typeAbonnement']?.touched">
+          <small>Veuillez choisir un type d'abonnement</small>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Méthode de paiement -->
+    <fieldset>
+      <legend>Méthode de paiement</legend>
+
+      <div class="form-group">
+        <select
+          name="methodePaiement"
+          [(ngModel)]="abonnementData.methodePaiement"
+          required
+          #methodePaiement="ngModel"
+          [class.invalid]="methodePaiement.invalid && methodePaiement.touched">
+          <option value="">Sélectionnez une méthode</option>
+          <option *ngFor="let methode of methodesPaiement; trackBy: trackByFn" [value]="methode.id">
+            {{ methode.nom }}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="methodePaiement.invalid && methodePaiement.touched">
+          <small>Veuillez choisir une méthode de paiement</small>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Conditions générales -->
+    <fieldset>
+      <div class="form-group checkbox-group">
+        <input
+          type="checkbox"
+          id="conditions"
+          name="conditions"
+          [(ngModel)]="abonnementData.conditions"
+          required
+          #conditions="ngModel">
+        <label for="conditions">
+          J'accepte les <a href="#" target="_blank">conditions générales</a> <span class="required">*</span>
+        </label>
+        <div class="error-message" *ngIf="conditions.invalid && conditions.touched">
+          <small>Vous devez accepter les conditions</small>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input
+          type="checkbox"
+          id="newsletter"
+          name="newsletter"
+          [(ngModel)]="abonnementData.newsletter">
+        <label for="newsletter">
+          Je souhaite recevoir la newsletter (optionnel)
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Bouton de soumission -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="abonnementForm.invalid"
+        class="btn-submit">
+        Souscrire à l'abonnement
+      </button>
+      <button
+        type="button"
+        (click)="abonnementForm.reset()"
+        class="btn-reset">
+        Réinitialiser
+      </button>
+    </div>
+
+    <!-- Résumé de l'abonnement (visible si valide) -->
+    <div class="resume" *ngIf="abonnementForm.valid">
+      <h3>Récapitulatif de votre abonnement</h3>
+      <pre>{{ abonnementForm.value | json }}</pre>
+    </div>
+  </form>
+</div>

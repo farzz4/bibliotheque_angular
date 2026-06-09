@@ -1,0 +1,86 @@
+<!-- Page des livres -->
+<div class="container">
+  <h1 class="page-title">📚 Catalogue des Livres</h1>
+
+  <!-- Section des statistiques -->
+  <div class="stats-section">
+    <h2 class="stats-title">Statistiques</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">📖</span>
+        <div class="stat-value">{{ livres.length }}</div>
+        <div class="stat-label">Livres disponibles</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div class="stat-value">{{ getNombreAuteursUniques() }}</div>
+        <div class="stat-label">Auteurs différents</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📚</span>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Catégories</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <div class="stat-value">4.8</div>
+        <div class="stat-label">Note moyenne</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des livres -->
+  <div class="livres-container">
+    <div class="livre-card" *ngFor="let livre of livres; trackBy: trackByFn">
+      <div class="livre-header">
+        <span class="livre-icon">📖</span>
+        <h3 class="livre-titre">{{ livre.titre }}</h3>
+      </div>
+
+      <div class="livre-content">
+        <div class="livre-info">
+          <div class="info-item">
+            <span class="info-label">Auteur:</span>
+            <span class="info-value">{{ livre.auteur }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">ID:</span>
+            <span class="info-value">#{{ livre.id }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Genre:</span>
+            <span class="info-value">Fiction</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Disponible:</span>
+            <span class="info-value tag">Oui</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="livre-actions">
+        <div class="btn-group">
+          <button class="btn btn-primary" (click)="emprunterLivre(livre)">
+            📖 Emprunter
+          </button>
+          <button class="btn btn-secondary" (click)="voirDetails(livre)">
+            👁️ Détails
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- État vide (si aucun livre) -->
+  <div class="empty-state" *ngIf="livres.length === 0">
+    <span class="empty-icon">📚</span>
+    <h3 class="empty-title">Aucun livre disponible</h3>
+    <p class="empty-description">
+      Il n'y a actuellement aucun livre dans notre catalogue.
+      Revenez plus tard pour découvrir de nouveaux ouvrages !
+    </p>
+    <button class="btn btn-primary">
+      🔄 Actualiser
+    </button>
+  </div>
+</div>

@@ -1,0 +1,152 @@
+<!-- Page de la liste des étudiants -->
+<div class="container">
+  <h1 class="page-title">👨‍🎓 Liste des Étudiants</h1>
+
+  <!-- Section des statistiques -->
+  <div class="stats-section">
+    <h2 class="stats-title">Statistiques des Étudiants</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div class="stat-value">{{ etudiants.length }}</div>
+        <div class="stat-label">Total étudiants</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📚</span>
+        <div class="stat-value">{{ getEtudiantsActifs() }}</div>
+        <div class="stat-label">Étudiants actifs</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🎓</span>
+        <div class="stat-value">{{ getEtudiantsParNiveau() }}</div>
+        <div class="stat-label">Niveaux différents</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📅</span>
+        <div class="stat-value">{{ getMoyenneAge() }}</div>
+        <div class="stat-label">Âge moyen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section des filtres -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h3 class="filters-title">🔍 Filtres et Recherche</h3>
+      <a class="clear-filters" (click)="clearFilters()" href="javascript:void(0)">Effacer les filtres</a>
+    </div>
+    <div class="filters-grid">
+      <div class="filter-group">
+        <input
+          type="text"
+          class="filter-input"
+          placeholder="Rechercher par nom..."
+          [(ngModel)]="searchTerm"
+          (input)="filterEtudiants()"
+        >
+      </div>
+      <div class="filter-group">
+        <select class="filter-input" [(ngModel)]="niveauFilter" (change)="filterEtudiants()">
+          <option value="">Tous les niveaux</option>
+          <option value="L1">Licence 1</option>
+          <option value="L2">Licence 2</option>
+          <option value="L3">Licence 3</option>
+          <option value="M1">Master 1</option>
+          <option value="M2">Master 2</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select class="filter-input" [(ngModel)]="statusFilter" (change)="filterEtudiants()">
+          <option value="">Tous les statuts</option>
+          <option value="actif">Actif</option>
+          <option value="inactif">Inactif</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section de la liste -->
+  <div class="liste-section">
+    <div class="liste-header">
+      <h2 class="section-title">Étudiants</h2>
+      <div class="actions-group">
+        <button class="btn btn-primary" (click)="ajouterEtudiant()">
+          ➕ Nouveau
+        </button>
+        <button class="btn btn-secondary" (click)="exporterListe()">
+          📄 Exporter
+        </button>
+      </div>
+    </div>
+
+    <div class="etudiant-card" *ngFor="let etudiant of etudiantsFiltres; trackBy: trackByFn">
+      <div class="card-header">
+        <div class="etudiant-info">
+          <h3 class="etudiant-nom">{{ etudiant.prenom }} {{ etudiant.nom }}</h3>
+          <p class="etudiant-niveau">{{ etudiant.niveau }}</p>
+        </div>
+        <span class="status-badge"
+              [ngClass]="{
+                'status-actif': etudiant.statut === 'actif',
+                'status-inactif': etudiant.statut === 'inactif'
+              }">
+          {{ etudiant.statut | titlecase }}
+        </span>
+      </div>
+
+      <div class="card-content">
+        <div class="etudiant-details">
+          <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ etudiant.email }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Téléphone</span>
+            <span class="detail-value">{{ etudiant.telephone }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Date de naissance</span>
+            <span class="detail-value">{{ etudiant.dateNaissance | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Âge</span>
+            <span class="detail-value">{{ calculerAge(etudiant.dateNaissance) }} ans</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Adresse</span>
+            <span class="detail-value">{{ etudiant.adresse }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Inscription</span>
+            <span class="detail-value">{{ etudiant.dateInscription | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="etudiant-actions">
+          <button class="btn btn-secondary" (click)="voirDetails(etudiant)">
+            👁️ Détails
+          </button>
+          <button class="btn btn-primary" (click)="modifierEtudiant(etudiant)">
+            ✏️ Modifier
+          </button>
+          <button class="btn" [ngClass]="etudiant.statut === 'actif' ? 'btn-outline' : 'btn-primary'"
+                  (click)="toggleStatut(etudiant)">
+            {{ etudiant.statut === 'actif' ? '🚫 Désactiver' : '✅ Activer' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="etudiantsFiltres.length === 0">
+    <span class="empty-icon">👨‍🎓</span>
+    <h3 class="empty-title">Aucun étudiant trouvé</h3>
+    <p class="empty-description">
+      {{ etudiants.length === 0 ? 'Il n\'y a encore aucun étudiant enregistré.' : 'Aucun étudiant ne correspond à vos critères de recherche.' }}
+    </p>
+    <button class="btn btn-primary" (click)="ajouterEtudiant()">
+      ➕ Créer le premier étudiant
+    </button>
+  </div>
+</div>

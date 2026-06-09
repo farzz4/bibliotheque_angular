@@ -1,0 +1,347 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  font-size: 16px; // Base font size for responsive design
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+@include mat.theme((
+  color: (
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: Roboto,
+  density: 0,
+));
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 🎨 THEME BIBLIOTHEQUE - Variables CSS personnalisées
+:root {
+  --primary-color: #2c2c2c;
+  --secondary-color: #8b6b4f;
+  --accent-color: #4f7a5a;
+  --background-color: #f5f3ef;
+  --surface-color: #ffffff;
+  --text-primary: #2c2c2c;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --border-radius: 8px;
+  --border-radius-large: 12px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  // Responsive breakpoints
+  --mobile-max: 768px;
+  --tablet-max: 1024px;
+  --desktop-min: 1025px;
+}
+
+// Responsive font sizes
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+// Global styles
+body {
+  background-color: var(--background-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 2rem; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 2rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 2rem; }
+
+// Button styles
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &.btn-primary {
+    background: linear-gradient(135deg, var(--secondary-color), #6b4f3f);
+    color: white;
+
+    &:hover {
+      background: linear-gradient(135deg, #6b4f3f, var(--secondary-color));
+    }
+  }
+
+  &.btn-secondary {
+    background: linear-gradient(135deg, var(--accent-color), #3f5a4a);
+    color: white;
+
+    &:hover {
+      background: linear-gradient(135deg, #3f5a4a, var(--accent-color));
+    }
+  }
+
+  &.btn-outline {
+    background: transparent;
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+
+    &:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+  }
+}
+
+// Card styles
+.card {
+  background: var(--surface-color);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-light);
+  padding: 1.5rem;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--border-color);
+
+  &:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
+  }
+}
+
+// Form styles
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+    background: var(--surface-color);
+
+    &:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(139, 107, 79, 0.1);
+    }
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+// Animation keyframes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// Loading states
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.5s ease;
+}
+
+// Responsive utilities
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .flex.mobile-column {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card {
+    margin: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .p-5 {
+    padding: 1rem;
+  }
+
+  .mb-5, .mt-5 {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+// Print styles
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .btn, .sidebar, .header, .footer {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
